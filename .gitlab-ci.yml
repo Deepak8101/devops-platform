@@ -6,18 +6,21 @@ stages:
 
 check-auth-service:
   stage: health-check
-  tags: local
+  tags:
+    - local
   script:
     - curl -f http://auth-service:5001/health
 
 check-order-service:
   stage: health-check
-  tags: local
+  tags: 
+    - local
   script:
     - curl -f http://order-service:5002/health
 
 check-recommendation-service:
   stage: health-check
-  tags: local
+  tags: 
+    - local
   script:
     - curl -f http://recommendation-service:5003/health
