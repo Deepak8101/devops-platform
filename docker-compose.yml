@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  auth-service:
+    build: ./services/auth-service
+    container_name: auth-service
+    ports:
+      - "5001:5001"
+    environment:
+      - JWT_SECRET_KEY=deepak-super-secret-key
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  order-service:
+    build: ./services/order-service
+    container_name: order-service
+    ports:
+      - "5002:5002"
+    environment:
+      - JWT_SECRET_KEY=deepak-super-secret-key
+    depends_on:
+      - auth-service
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5002/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  recommendation-service:
+    build: ./services/recommendation-service
+    container_name: recommendation-service
+    ports:
+      - "5003:5003"
+    environment:
+      - JWT_SECRET_KEY=deepak-super-secret-key
+    depends_on:
+      - auth-service
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5003/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
